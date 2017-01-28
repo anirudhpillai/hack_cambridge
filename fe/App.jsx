@@ -1,3 +1,6 @@
+//get latest robots and missile info
+//update robots and missiles on GameCanvas with latest locations
+
 import React from 'react';
 
 const robots = [
