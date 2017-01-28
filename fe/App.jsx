@@ -73,39 +73,48 @@ const missiles = [
 	}
 ]
 
-class SpaceCraft extends React.Component {
-	render () {
-		const newStyles = { 
-			top: this.props.y + "px", 
-			left: this.props.x + "px",
-			transform: `rotate(${this.props.rotate}deg)`,
-		}
-		return <div className="spaceCraft" style={newStyles}></div>;
+function SpaceCraft(props){
+	const newStyles = { 
+		top: this.props.y + "px", 
+		left: this.props.x + "px",
+		transform: `rotate(${this.props.rotate}deg)`,
 	}
+	return <div className="spaceCraft" style={newStyles}></div>;
 }
 
-class Missile extends React.Component {
-	render () {
-		const newStyles = { 
-			top: this.props.y + "px", 
-			left: this.props.x + "px",
-			transform: `rotate(${this.props.rotate}deg)`,
-		}
-		return <div className="missile" style={newStyles}></div>;
+function Missile(props){
+	const newStyles = { 
+		top: this.props.y + "px", 
+		left: this.props.x + "px",
+		transform: `rotate(${this.props.rotate}deg)`,
 	}
+	return <div className="missile" style={newStyles}></div>;
 }
 
 
 class GameCanvas extends React.Component {
+	constructor(props){
+		super(props)
+		this.setState({
+			robots: this.props.robots,
+			missiles: this.props.missiles
+		})
+	}
+	updateCanvas(robots, missiles){
+		this.setState({
+			robots: robots,
+			missiles: missiles
+		})
+	}
 	render() {
+		const updatedRobots = this.props.robots.map( 
+			robot => <SpaceCraft key={robot.id} x={robot.x} y={robot.y} rotate={robot.rotate}/>)
+		const updatedMissiles = this.props.missiles.map( 
+			missile => <Missile key={missile.id} x={missile.x} y={missile.y} rotate={missile.rotate}/>)
 		return (
 			<div className="canvas">
-				{
-					this.props.robots.map( robot => <SpaceCraft x={robot.x} y={robot.y} rotate={robot.rotate} /> )
-				}
-				{
-					this.props.missiles.map( missile => <Missile x={missile.x} y={missile.y} rotate={missile.rotate} /> )
-				}
+				{ updatedRobots }
+				{ updatedMissiles }
 			</div>
 		);
 	}
