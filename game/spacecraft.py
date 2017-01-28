@@ -1,7 +1,8 @@
-
+import uuid
 
 class Spaceship:
     def __init__(self, x, y, game):
+        self.player_id = uuid.uuid5(uuid.NAMESPACE_DNS, 'game')
         self.x = x
         self.y = y
         self.game = game
