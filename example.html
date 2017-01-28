@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Pusher Platform example</title>
+  </head>
+  <body>
+
+    <ol id="feed_items">
+    </ol>
+
+    <script src="https://js.pusher.com/platform/latest/pusher-platform.js"></script>
+    <script src="https://js.pusher.com/platform/latest/pusher-platform-secret-authorizer.js"></script>
+    <script>
+      var app = new PusherPlatform.App({
+        appId: 'c28a0d37-424e-493b-80d9-2488cc7bac8a'
+      });
+
+      var notificationsFeed = app.feed("test");
+      
+      notificationsFeed.subscribe({
+        lastEventId: "0",
+        onOpen: () => {
+          console.log("Subscription opened");
+        },
+        onItem: (item) => {
+          var itemEl = document.createElement("li");
+          itemEl.innerText = JSON.stringify(item);
+          document.getElementById("feed_items").appendChild(itemEl);
+        },
+        onError: (err) => {
+          console.error("Error subscribing to notifications:", err);
+        }
+      });
+
+      document.onload(() => {
+        document.getElementById("page_items").innerText = "";
+        notificationsFeed.get({
+          fromId: document.getElementById("page_boundary").value,
+          limit: 50
+        }).then((response) => {
+          console.log("Got page", response);
+          for (var i = 0; i < response.items.length; i++) {
+            var item = response.items[i];
+            var itemEl = document.createElement("li");
+            itemEl.innerText = JSON.stringify(item);
+            document.getElementById("page_items").appendChild(itemEl);
+          }
+        })
+        .catch((error) => { console.error("Could not get page:", error); });
+      })
+
+      // Using the same feed as above we can append any value:
+      document.getElementById("append_item").addEventListener("click", () => {
+        notificationsFeed.append(document.getElementById("item_val").value)
+          .then((response) => console.log("Success response when appending:", response))
+          .catch((err) => console.error("Could not append:", err));
+      });
+    </script>
+  </body>
+</html>
