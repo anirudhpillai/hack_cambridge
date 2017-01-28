@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Pusher Test</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <script src="https://js.pusher.com/platform/latest/pusher-platform.js"></script>
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+            
+        <script>
+            var app = new PusherPlatform.App({
+                appId: '383a9203-54cc-45ff-8707-3e9b43a45845',
+            });
+
+            var myFeed = app.feed('playground');
+
+            myFeed.subscribe({
+                onOpen: () => console.log('Connection established'),
+                onItem: item => console.log('Item:', item),
+                onError: error => console.error('Error:', error),
+            });
+
+            myFeed.append('Hello, world2!')
+                .then(response => console.log('Success:', response))
+                .catch(err => console.error('Error:', err));
+
+            // You’re not limited to appending string values;
+            // you can also append objects, arrays and numbers.
+            myFeed.append({ yourKey: 'your value' })
+                .then(response => console.log('Success:', response))
+                .catch(err => console.error('Error:', err));
+
+        </script>
+    </body>
+</html>

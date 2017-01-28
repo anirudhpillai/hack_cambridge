@@ -5,16 +5,21 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <script src="https://js.pusher.com/platform/latest/pusher-platform.js"></script>
         <style type="text/css" media="screen">
             body {
                 font-family: 'Lato', sans-serif;
             }
 
-            #code-col {
+            #code-col, #chat-col {
                 background-color:#272822;
                 padding-bottom: 100%;
                 margin-bottom: -100%;
                 color:#FFFFFF;
+            }
+
+            #chat-text {
+                width: 450px;
             }
             
             #editor { 
@@ -49,7 +54,24 @@
     for i in range(0,5):
         print i</div>
                 <div class="container">
-                    <button class="btn btn-success btn-lg submit-btn raised">Submit</button>
+                    <button class="btn btn-success btn-lg submit-btn raised" id="submit">Submit</button>
+                </div>
+            </div>
+
+            <div id="chat-col" class="col-md-4" style="display:none;">
+                <div class="container">
+                    <h1 id="chat-title" style="display:none;">Chat</h1>
+
+                    <div id="messages-container">
+                        <ul id="messages-list">
+                            
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea class="form-control" rows="1" id="chat-text" style="resize:none"></textarea>
+                    </div>
+                    <button class="btn btn-success btn-lg submit-btn raised" id="send">Send</button>
                 </div>
             </div>
 
@@ -69,11 +91,43 @@
                 editor.setTheme("ace/theme/monokai");
                 editor.getSession().setMode("ace/mode/python");
 
-                $(".submit-btn").click(function() {
+                var app = new PusherPlatform.App({
+                    appId: '383a9203-54cc-45ff-8707-3e9b43a45845',
+                });
+
+                function addMsgToList(msgItem) {
+                    $("#messages-list").append("<li>" + msgItem.body.user + ": " + msgItem.body.msg + "</li>")
+                }
+
+                var myFeed = app.feed('chat');
+
+                myFeed.subscribe({
+                    onOpen: () => console.log('Connection established'),
+                    onItem: item => addMsgToList(item),
+                    onError: error => console.error('Error:', error),
+                });
+
+                $("#submit").click(function() {
                     var code = editor.getValue();
                     console.log(code);
                     editor.setReadOnly(true);
-                    $("#editor").css("opacity", "0.5");
+                    $("#code-col").hide();
+                    $("#chat-col").show(0, function() {
+                        $("#chat-title").fadeIn(1000);
+                    });
+                });
+
+                $("#chat-text").keyup(function() {
+                    this.style.height = "1px";
+                    this.style.height = this.scrollHeight < 75 ? (25+this.scrollHeight)+"px" : "100px";
+                });
+
+                $("#send").click(function() {
+                    var text = $("#chat-text").val();
+                    $("#chat-text").val("");
+                    myFeed.append({ user: "Al", msg: text })
+                        .then(response => console.log('Success:', response))
+                        .catch(err => console.error('Error:', err));
                 });
             });
         </script>
