@@ -1,5 +1,6 @@
 import uuid
 import json
+from pusher import upload_item
 
 
 class Game:
@@ -29,7 +30,7 @@ class Game:
             set([(k.x, k.y) for k in self.bullets]):
                 self.players.remove(player)
 
-        return get_frontend_data()
+        return upload_item(get_frontend_data())
 
     def get_frontend_data(self):
         pls = []
@@ -49,4 +50,4 @@ class Game:
                 "y": y
             })
 
-        return json.dumps({"bullets": bls, "players": pls})
+        return {"bullets": bls, "players": pls}
