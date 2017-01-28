@@ -1,0 +1,2 @@
+BULLET_SPEED = 30  # fpm
+TICK_LENGTH = 100  # ms

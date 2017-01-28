@@ -1,4 +1,5 @@
 import uuid
+from constants import *
 
 
 class Spaceship:
@@ -15,4 +16,5 @@ class Spaceship:
         return game.get_locations()
 
     def fire(self, x, y):
-        game.add_bullet(x, y)
+        curr_x, curr_y = self.own_location()
+        game.add_bullet(curr_x, curr_y, x, y)
