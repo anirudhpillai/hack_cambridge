@@ -71,7 +71,9 @@
 
                 $(".submit-btn").click(function() {
                     var code = editor.getValue();
-                    console.log(code); 
+                    console.log(code);
+                    editor.setReadOnly(true);
+                    $("#editor").css("opacity", "0.5");
                 });
             });
         </script>
