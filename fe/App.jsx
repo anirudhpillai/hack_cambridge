@@ -37,6 +37,7 @@ const robots = [
 
 const missiles = [
 	{
+		id: "klasjndlk",
 		x: 100,
 		y: 109,
 		rotate: 90,
@@ -44,6 +45,7 @@ const missiles = [
 		created: true
 	},
 	{
+		id: "kalsdnjkasd",
 		x: 420,
 		y: 100,
 		rotate: 50,
@@ -51,6 +53,7 @@ const missiles = [
 		created: true
 	},
 	{
+		id: "alsjdn2",
 		x: 150,
 		y: 340,
 		rotate: 340,
@@ -58,6 +61,7 @@ const missiles = [
 		created: true
 	},
 	{
+		id: "akjsdlk",
 		x: 570,
 		y: 340,
 		rotate: 90,
@@ -67,17 +71,6 @@ const missiles = [
 ]
 
 class SpaceCraft extends React.Component {
-	constructor(props) {
-		super(props)
-	}
-	updatePosition(x, y, rotate) {
-		Object.assign(this.props, {
-			x: x,
-			y: y,
-			rotate: rotate
-		})
-		render()
-	}
 	render () {
 		const newStyles = { 
 			top: this.props.y + "px", 
@@ -89,17 +82,6 @@ class SpaceCraft extends React.Component {
 }
 
 class Missile extends React.Component {
-	constructor(props) {
-		super(props)
-	}
-	updatePosition(x, y, rotate) {
-		Object.assign(this.props, {
-			x: x,
-			y: y,
-			rotate: rotate
-		})
-		render()
-	}
 	render () {
 		const newStyles = { 
 			top: this.props.y + "px", 
@@ -110,29 +92,28 @@ class Missile extends React.Component {
 	}
 }
 
-class GameCanvas extends React.Component {
-	constructor(props){
-		super(props)
-	}
-	updateWorkers(){
 
-	}
+class GameCanvas extends React.Component {
 	render() {
 		return (
 			<div className="canvas">
-				<SpaceCraft x="100" y="10" rotate="40"/>
-				<Missile x="160" y="25" rotate="180"/>
+				{
+					this.props.robots.map( robot => <SpaceCraft x={robot.x} y={robot.y} rotate={robot.rotate} /> )
+				}
+				{
+					this.props.missiles.map( missile => <Missile x={missile.x} y={missile.y} rotate={missile.rotate} /> )
+				}
 			</div>
 		);
 	}
 }
 
 class App extends React.Component {
-   render() {
-      return (
-         <GameCanvas robots={robots} missiles={missiles}/>
-      );
-   }
+	render() {
+		return (
+			<GameCanvas robots={robots} missiles={missiles} />
+		);
+	}
 }
 
 export default App;
