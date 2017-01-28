@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>ACE in Action</title>
+        <title>CodeBot Wars</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <style type="text/css" media="screen">
+            body {
+                font-family: 'Lato', sans-serif;
+            }
+
+            #code-col {
+                background-color:#272822;
+                padding-bottom: 100%;
+                margin-bottom: -100%;
+                color:#FFFFFF;
+            }
+            
             #editor { 
-                /*position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;*/
                 width:100%;
                 height:800px;
             }
+
+            .submit-btn {
+                font-weight:bold;
+            }
+
+            .submit-btn.raised {
+                box-shadow: 0 3px 0 0 #346934;
+            }
+
+            .submit-btn.raised:active, .submit-btn.raised.active {
+                background: #449D44;
+                box-shadow: none;
+                margin-bottom: -3px;
+                margin-top: 3px;
+            }
         </style>
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
+
     <body>
         <div class="row">
-            <div class="col-md-4 no-float" style="background-color:#272822; padding-bottom: 100%; margin-bottom: -100%;">
-                <h1 style="color:#FFFFFF; text-align:center;">Write your code here</h1>
+            <div id="code-col" class="col-md-4">
+                <div class="container">
+                    <h1>Write your code here</h1>                    
+                </div>
                 <div id="editor">def loop():
     for i in range(0,5):
         print i</div>
-                <button class="btn btn-success">Submit</button>
+                <div class="container">
+                    <button class="btn btn-success btn-lg submit-btn raised">Submit</button>
+                </div>
             </div>
 
-            <div class="col-md-8 no-float">
+            <div class="col-md-8">
                 <div id="game">
                     <h1>game</h1>
                 </div>
@@ -36,9 +64,15 @@
             
         <script src="./ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/monokai");
-            editor.getSession().setMode("ace/mode/python");
+            $(document).ready(function() {
+                var editor = ace.edit("editor");
+                editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/python");
+
+                $(".submit-btn").click(function() {
+                    var code = ""; 
+                });
+            });
         </script>
     </body>
 </html>
