@@ -70,7 +70,8 @@
                 editor.getSession().setMode("ace/mode/python");
 
                 $(".submit-btn").click(function() {
-                    var code = ""; 
+                    var code = editor.getValue();
+                    console.log(code); 
                 });
             });
         </script>
