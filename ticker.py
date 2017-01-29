@@ -1,8 +1,5 @@
 """
-
 run this file to keep the tick function happening every 100ms
-
-
 """
 
 from time import sleep

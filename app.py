@@ -24,7 +24,7 @@ def get_code():
 
     if client_id not in code_user:
         new_sc = Spaceship(randint(0, 19), randint(0, 19), game)
-        code_user[client_id] = [code, new_c]
+        code_user[client_id] = [code, new_sc]
     else:
         code_user[client][0] = code
 

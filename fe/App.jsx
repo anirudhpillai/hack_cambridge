@@ -74,8 +74,8 @@ const missiles = [
 ]
 
 function SpaceCraft(props){
-	const newStyles = { 
-		top: props.y + "px", 
+	const newStyles = {
+		top: props.y + "px",
 		left: props.x + "px",
 		transform: `rotate(${props.rotate}deg)`,
 	}
@@ -89,8 +89,8 @@ SpaceCraft.defaultProps = {
 }
 
 function Missile(props){
-	const newStyles = { 
-		top: props.y + "px", 
+	const newStyles = {
+		top: props.y + "px",
 		left: props.x + "px",
 		transform: `rotate(${props.rotate}deg)`,
 	}
@@ -113,6 +113,7 @@ class GameCanvas extends React.Component {
 			missiles: missiles
 		}
 	}
+
 	updateCanvas(updates){
 		console.log("New update " + updates)
 		this.setState({
@@ -120,19 +121,21 @@ class GameCanvas extends React.Component {
 			missiles: updates.missiles
 		})
 	}
+
 	render() {
 		let updatedRobots
 		let updatedMissiles
 		if (this.state) {
 			if (this.state.robots) {
-				updatedRobots = this.state.robots.map( 
+				updatedRobots = this.state.robots.map(
 					robot => <SpaceCraft key={robot.id} x={robot.x} y={robot.y} rotate={robot.rotate}/>)
 			}
 			if (this.state.missiles) {
-				updatedMissiles = this.state.missiles.map( 
+				updatedMissiles = this.state.missiles.map(
 					missile => <Missile key={missile.id} x={missile.x} y={missile.y} rotate={missile.rotate}/>)
 			}
 		}
+
 		return (
 			<div className="canvas">
 				{ updatedRobots }
@@ -150,7 +153,7 @@ class App extends React.Component {
 	}
 	render() {
 		return (
-			<GameCanvas feed={this.updatesFeed} initialState={{robots: [],missiles: []}} />
+			<GameCanvas feed={this.updatesFeed} initialState={{robots: [], missiles: []}} />
 		);
 	}
 }
