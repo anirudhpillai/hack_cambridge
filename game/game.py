@@ -1,6 +1,6 @@
 import uuid
 import json
-from pusher import upload_item
+from .pusher import upload_item
 
 
 class Game:
@@ -18,36 +18,49 @@ class Game:
         self.bullets.add(new_bullet)
 
     def next_tick(self):
+        bls = []
         for bullet in self.bullets:
             if not (0 <= bullet.x <= self.width and
                     0 <= bullet.y <= self.height):
+                bls.append({
+                    "id": str(bullet.bullet_id),
+                    "x": x,
+                    "y": y,
+                    "destroyed": True
+                })
                 self.bullets.remove(bullet)
                 continue
             bullet.update_bullet_psosition()
 
+        pls = []
         for player in self.players:
-            if (player.x, player.y) in
+            if (player.x, player.y) in \
             set([(k.x, k.y) for k in self.bullets]):
+                pls.append({
+                    "id": str(player.player_id),
+                    "x": player.x,
+                    "y": player.y,
+                    "destroyed": True
+                })
                 self.players.remove(player)
 
-        return upload_item(get_frontend_data())
+        return upload_item(get_frontend_data(pls, bls))
 
-    def get_frontend_data(self):
-        pls = []
+    def get_frontend_data(self, pls, bls):
         for player in self.players:
             pls.append({
                 "id": str(player.player_id),
                 "x": player.x,
-                "y": player.y
+                "y": player.y,
+                "destroyed": False
             })
-
-        bls = []
 
         for bullet in self.bullets:
             bls.append({
                 "id": str(bullet.bullet_id),
                 "x": x,
-                "y": y
+                "y": y,
+                "destroyed": False
             })
 
         return {"bullets": bls, "players": pls}
