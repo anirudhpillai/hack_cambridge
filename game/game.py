@@ -1,5 +1,6 @@
 import uuid
 import json
+from flask import Response
 from .pusher import upload_item
 
 
@@ -44,7 +45,8 @@ class Game:
                 })
                 self.players.remove(player)
 
-        return upload_item(get_frontend_data(pls, bls))
+        upload_item(self.get_frontend_data(pls, bls))
+        return Response(status=200)
 
     def get_frontend_data(self, pls, bls):
         for player in self.players:
