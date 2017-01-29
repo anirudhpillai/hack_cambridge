@@ -3,8 +3,8 @@ from .constants import *
 
 
 class Spaceship:
-    def __init__(self, x, y, game):
-        self.player_id = uuid.uuid5(uuid.NAMESPACE_DNS, 'game')
+    def __init__(self, x, y, game, c_id):
+        self.player_id = c_id
         self.x = x
         self.y = y
         self.game = game

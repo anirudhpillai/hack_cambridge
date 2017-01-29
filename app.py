@@ -69,6 +69,7 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -86,7 +87,7 @@ def get_code():
         return Response(status=500)
 
     if client_id not in code_user:
-        new_sc = Spaceship(randint(0, 19), randint(0, 19), game)
+        new_sc = Spaceship(randint(0, 1699), randint(0, 699), game, client_id)
         game.players.add(new_sc)
         code_user[client_id] = [code, new_sc]
     else:
