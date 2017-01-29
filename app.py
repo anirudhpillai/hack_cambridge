@@ -101,14 +101,13 @@ def schedule():
         code, sc = code_user[user]
         try:
             exec(code)
+            play(sc)
         except Exception as e:
             print(e)
             code = """def play(sc): pass"""
             exec(code)
             code_user[user][0] = code
             continue
-
-        play(sc)
         print("here reached " + code)
     game.next_tick()
     return Response(status=200)
