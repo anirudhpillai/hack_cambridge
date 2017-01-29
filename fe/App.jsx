@@ -80,7 +80,7 @@ function SpaceCraft(props){
 		transform: `rotate(${props.rotate}deg)`,
 	}
 	if (props.destroyed) {
-		return;
+		return null;
 	} else {
 		return <div className="spaceCraft" style={newStyles}></div>;
 	}
@@ -99,7 +99,7 @@ function Missile(props){
 		transform: `rotate(${props.rotate}deg)`,
 	}
 	if (props.destroyed) {
-		return;
+		return null;
 	} else {
 		return <div className="missile" style={newStyles}></div>;
 	}
@@ -132,19 +132,19 @@ class GameCanvas extends React.Component {
 		if (this.state) {
 			if (this.state.robots) {
 				updatedRobots = this.state.robots.map(
-					robot => <SpaceCraft 
-										key={robot.id} 
-										x={robot.x} 
-										y={robot.y} 
-										rotate={robot.rotate} 
+					robot => <SpaceCraft
+										key={robot.id}
+										x={robot.x}
+										y={robot.y}
+										rotate={robot.rotate}
 										destroyed={robot.destroyed}/>)
 			}
 			if (this.state.missiles) {
 				updatedMissiles = this.state.missiles.map(
-					missile => <Missile 
-										key={missile.id} 
-										x={missile.x} 
-										y={missile.y} 
+					missile => <Missile
+										key={missile.id}
+										x={missile.x}
+										y={missile.y}
 										rotate={missile.rotate}
 										destroyed={missile.destroyed}/>)
 			}
@@ -162,7 +162,7 @@ class App extends React.Component {
 	constructor(){
 		super()
 		const pusher = new PusherPlatform.App({ appId: 'c28a0d37-424e-493b-80d9-2488cc7bac8a'})
-		this.updatesFeed = pusher.feed("game") 
+		this.updatesFeed = pusher.feed("game")
 	}
 	render() {
 		return (
