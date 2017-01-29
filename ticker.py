@@ -11,4 +11,4 @@ while True:
     url = "http://localhost:5000/scheduler"
     r = requests.get(url)
     print(r.status_code)
-    sleep(1)
+    sleep(5)
