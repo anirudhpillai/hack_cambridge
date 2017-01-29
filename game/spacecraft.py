@@ -13,8 +13,8 @@ class Spaceship:
         return (self.x, self.y)
 
     def get_all_locations(self):
-        return game.get_locations()
+        return self.game.get_locations()
 
     def fire(self, x, y):
         curr_x, curr_y = self.own_location()
-        game.add_bullet(curr_x, curr_y, x, y)
+        self.game.add_bullet(curr_x, curr_y, x, y)

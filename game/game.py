@@ -2,6 +2,7 @@ import uuid
 import json
 from flask import Response
 from .pusher import upload_item
+from .bullet import Bullet
 
 
 class Game:
@@ -20,20 +21,26 @@ class Game:
 
     def next_tick(self):
         bls = []
+
+        tbd = []
         for bullet in self.bullets:
             if not (0 <= bullet.x <= self.width and
                     0 <= bullet.y <= self.height):
                 bls.append({
                     "id": str(bullet.bullet_id),
-                    "x": x,
-                    "y": y,
+                    "x": bullet.x,
+                    "y": bullet.y,
                     "destroyed": True
                 })
-                self.bullets.remove(bullet)
+                tbd.append(bullet)
                 continue
+
             bullet.update_bullet_psosition()
+        for b in tbd:
+            self.bullets.remove(b)
 
         pls = []
+        tbd = []
         for player in self.players:
             if (player.x, player.y) in \
             set([(k.x, k.y) for k in self.bullets]):
@@ -43,7 +50,9 @@ class Game:
                     "y": player.y,
                     "destroyed": True
                 })
-                self.players.remove(player)
+                tbd.append(player)
+        for p in tbd:
+            self.players.remove(player)
 
         upload_item(self.get_frontend_data(pls, bls))
         return Response(status=200)
@@ -62,8 +71,8 @@ class Game:
         for bullet in self.bullets:
             bls.append({
                 "id": str(bullet.bullet_id),
-                "x": x,
-                "y": y,
+                "x": bullet.x,
+                "y": bullet.y,
                 "destroyed": False,
                 "created": True,
                 "rotate": 0
