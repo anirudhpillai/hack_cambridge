@@ -134,14 +134,14 @@
    </head>
 
    <body>
-	
+
 		<div class="container">
 	        <div id="code-col" class="side_column">
 	            <h1>Write your code here</h1>
-	            <div id="editor" class="editor">	            
-def loop():
+	            <div id="editor" class="editor">
+def play(asd):
 	for i in range(0,5):
-	    print i
+	    print(i)
 	    		</div>
 	    		<button class="submit" id="submit">Submit</button>
 	        </div>
@@ -193,9 +193,34 @@ def loop():
 		            onError: error => console.error('Error:', error),
 		        });
 
+            function guidGenerator() {
+              var S4 = function() {
+                return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+              };
+              return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+            }
+
 		        $("#submit").click(function() {
+                if (!localStorage.getItem('spaceshipId')) {
+                  localStorage.setItem('spaceshipId', guidGenerator());
+                }
+
+                console.log(localStorage.getItem('spaceshipId'));
+
 		            var code = editor.getValue();
-		            console.log(code);
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:5000/get_code",
+                    data: {
+                        code: code,
+                        id: localStorage.getItem('spaceshipId')
+                    },
+                    success: function(res){
+                        console.log(res);
+                    }
+                });
+
 		            editor.setReadOnly(true);
 		            $("#code-col").hide();
 		            $("#chat-col").show(0, function() {
@@ -209,11 +234,13 @@ def loop():
 		        // });
 
 		        $("#send").click(function() {
-		            var text = $("#chat-text").val();
-		            $("#chat-text").val("");
-		            myFeed.append({ user: "Al", msg: text })
-		                .then(response => console.log('Success:', response))
-		                .catch(err => console.error('Error:', err));
+	            var text = $("#chat-text").val();
+
+	            $("#chat-text").val("");
+
+	            myFeed.append({ user: "Al", msg: text })
+	                .then(response => console.log('Success:', response))
+	                .catch(err => console.error('Error:', err));
 		        });
 		    });
 		</script>

@@ -9,7 +9,7 @@ def upload_item(item_data):
     Args:
         :data is the JSON about player and bullet locs
     """
-    url = "https://api.private-beta-1.pusherplatform.com:443/apps/" + APP_ID + "/feeds/test"
+    url = "https://api.private-beta-1.pusherplatform.com:443/apps/" + APP_ID + "/feeds/game"
     data = {'items': [item_data]}
     r = requests.post(url, data=json.dumps(data))
     print("Request sent: " + str(r.status_code))
