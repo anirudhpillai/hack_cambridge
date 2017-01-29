@@ -103,9 +103,8 @@ def schedule():
             exec(code)
         except Exception as e:
             print(e)
-            code = """
-def play(sc): pass
-            """
+            code = """def play(sc): pass"""
+            exec(code)
             code_user[user][0] = code
             continue
 
