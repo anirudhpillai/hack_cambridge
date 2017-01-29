@@ -1,6 +1,6 @@
 import uuid
 import json
-from pusher import upload_item
+from .pusher import upload_item
 
 
 class Game:
@@ -34,7 +34,7 @@ class Game:
 
         pls = []
         for player in self.players:
-            if (player.x, player.y) in
+            if (player.x, player.y) in \
             set([(k.x, k.y) for k in self.bullets]):
                 pls.append({
                     "id": str(player.player_id),

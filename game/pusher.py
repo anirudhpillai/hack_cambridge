@@ -1,6 +1,7 @@
-from config import *
+from .config import *
 import requests
 import json
+
 
 def upload_item(item_data):
     """
