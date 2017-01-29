@@ -54,7 +54,9 @@ class Game:
                 "id": str(player.player_id),
                 "x": player.x,
                 "y": player.y,
-                "destroyed": False
+                "destroyed": False,
+                "created": True,
+                "rotate": 0
             })
 
         for bullet in self.bullets:
@@ -62,7 +64,9 @@ class Game:
                 "id": str(bullet.bullet_id),
                 "x": x,
                 "y": y,
-                "destroyed": False
+                "destroyed": False,
+                "created": True,
+                "rotate": 0
             })
 
         return {"bullets": bls, "players": pls}
