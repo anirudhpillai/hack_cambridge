@@ -100,25 +100,21 @@ function Missile(props){
 Missile.defaultProps = SpaceCraft.defaultProps
 
 class GameCanvas extends React.Component {
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 		this.props.feed.subscribe({
 			lastEventId: "0",
 			onOpen: () => console.log("Subscription opened"),
 			onItem: updates => this.updateCanvas(updates),
 			onError: err => console.error("Error subscribing to notifications:", err)
 		})
-		// this.state = {
-		// 	robots: robots,
-		// 	missiles: missiles
-		// }
 	}
 
 	updateCanvas(updates){
 		console.log("New update " + updates)
 		this.setState({
-			robots: updates.robots,
-			missiles: updates.missiles
+			robots: updates.players,
+			missiles: updates.bullets
 		})
 	}
 
@@ -135,7 +131,6 @@ class GameCanvas extends React.Component {
 					missile => <Missile key={missile.id} x={missile.x} y={missile.y} rotate={missile.rotate}/>)
 			}
 		}
-
 		return (
 			<div className="canvas">
 				{ updatedRobots }
@@ -149,11 +144,11 @@ class App extends React.Component {
 	constructor(){
 		super()
 		const pusher = new PusherPlatform.App({ appId: 'c28a0d37-424e-493b-80d9-2488cc7bac8a'})
-		this.updatesFeed = pusher.feed("game");
+		this.updatesFeed = pusher.feed("game") 
 	}
 	render() {
 		return (
-			<GameCanvas feed={this.updatesFeed} initialState={{robots: [], missiles: []}} />
+			<GameCanvas feed={this.updatesFeed} initialState={{robots: [], missiles: []}}/>
 		);
 	}
 }
