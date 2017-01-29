@@ -124,8 +124,8 @@
       	}
       	.missile {
       		position: absolute;
-      		width: 2px;
-      		height: 5px;
+      		width: 3px;
+      		height: 6px;
       		z-index: 5;
       		background-color: goldenrod;
       	}
@@ -170,12 +170,14 @@ def play(asd):
 		<script src="https://js.pusher.com/platform/latest/pusher-platform.js"></script>
 		<script src="https://js.pusher.com/platform/latest/pusher-platform-secret-authorizer.js"></script>
 		<script src="index.js"></script>
-		<script src="./ace-builds-master/src-noconflict/ace.js" type="text/javascript"></script>
+		<script src="./ace-builds-master/src-noconflict/ace.js"></script>
 		<script>
 		    $(document).ready(function() {
 		        var editor = ace.edit("editor");
 		        editor.setTheme("ace/theme/monokai");
 		        editor.getSession().setMode("ace/mode/python");
+
+            var user = "";
 
 		        var app = new PusherPlatform.App({
 		            appId: '383a9203-54cc-45ff-8707-3e9b43a45845',
@@ -226,6 +228,7 @@ def play(asd):
 		            $("#chat-col").show(0, function() {
 		                $("#chat-title").fadeIn(1000);
 		            });
+                user = prompt("Enter your name for the chat:");
 		        });
 
 		        // $("#chat-text").keyup(function() {
@@ -238,7 +241,7 @@ def play(asd):
 
 	            $("#chat-text").val("");
 
-	            myFeed.append({ user: "Al", msg: text })
+	            myFeed.append({ user: user, msg: text })
 	                .then(response => console.log('Success:', response))
 	                .catch(err => console.error('Error:', err));
 		        });
