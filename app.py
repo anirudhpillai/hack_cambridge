@@ -6,6 +6,8 @@ from game.game import Game
 from game.spacecraft import Spaceship
 app = Flask(__name__)
 
+
+
 try:
     unicode = unicode
 except NameError:
@@ -69,6 +71,9 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
+global game
+game = Game(20, 20)
+
 
 @app.route('/')
 def hello_world():
@@ -77,7 +82,7 @@ def hello_world():
 
 @app.route('/get_code', methods=['POST'])
 @crossdomain(origin='*')
-def get_code():
+def get_code(game=game):
     print("This was hit")
 
     code = request.form.get('code')
@@ -87,7 +92,7 @@ def get_code():
         return Response(status=500)
 
     if client_id not in code_user:
-        new_sc = Spaceship(randint(0, 1699), randint(0, 699), game, client_id)
+        new_sc = Spaceship(randint(0, 699), randint(0, 699), game, client_id)
         game.players.add(new_sc)
         code_user[client_id] = [code, new_sc]
     else:
@@ -95,17 +100,23 @@ def get_code():
 
     return Response(status=200)
 
+global sc
+
 
 @app.route('/scheduler')
-def schedule():
+def schedule(game=game):
     for user in code_user:
         code, sc = code_user[user]
+        # mp = {'sc': sc, 'xyz': game}
         try:
-            exec(code)
-            play(sc)
+            # code = code.replace('sc', "mp['sc']")
+            # code = code.replace('xyz', "mp['xyz']")
+            print(code)
+            eval(code)
+            # play(sc)
         except Exception as e:
             print(e)
-            code = """def play(sc): pass"""
+            # code = """print("Hello World!")"""
             exec(code)
             code_user[user][0] = code
             continue
@@ -113,8 +124,6 @@ def schedule():
     game.next_tick()
     return Response(status=200)
 
-game = None
 
 if __name__ == "__main__":
-    game = Game(20, 20)
     app.run(debug=True)

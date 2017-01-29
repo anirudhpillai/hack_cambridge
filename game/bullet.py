@@ -1,6 +1,6 @@
 from math import atan2, cos, sin
-from constants import *
-
+from .constants import *
+import uuid
 
 class Bullet:
     def __init__(self, x, y, dest_x, dest_y):
