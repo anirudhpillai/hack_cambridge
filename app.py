@@ -110,8 +110,9 @@ def play(sc): pass
             continue
 
         play(sc)
-
+        print("here reached " + code)
     game.next_tick()
+    return Response(status=200)
 
 game = None
 

@@ -10,4 +10,5 @@ print("Running")
 while True:
     url = "http://localhost:5000/scheduler"
     r = requests.get(url)
-    sleep(100)
+    print(r.status_code)
+    sleep(1)
