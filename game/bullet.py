@@ -10,8 +10,9 @@ class Bullet:
         self.dest_x = dest_x
         self.dest_y = dest_y
 
-    def update_bullet_psosition(self):
+    def update_bullet_position(self):
         direction = atan2(-1 * (self.dest_y - self.y), self.dest_x - self.x)
-        new_x = x + cos(direction) * BULLET_SPEED * TICK_LENGTH
-        new_y = y + sin(direction) * BULLET_SPEED * TICK_LENGTH
+        print("direction = ", direction)
+        new_x = self.x + cos(direction) * 10
+        new_y = self.y + sin(direction) * 10
         self.x, self.y = new_x, new_y

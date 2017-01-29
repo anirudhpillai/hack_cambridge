@@ -72,7 +72,7 @@ def crossdomain(origin=None, methods=None, headers=None,
     return decorator
 
 global game
-game = Game(20, 20)
+game = Game(700, 700)
 
 
 @app.route('/')

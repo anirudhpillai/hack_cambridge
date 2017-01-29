@@ -30,12 +30,14 @@ class Game:
                     "id": str(bullet.bullet_id),
                     "x": bullet.x,
                     "y": bullet.y,
-                    "destroyed": True
+                    "destroyed": False,
+                    "created": True,
+                    "rotate": 0
                 })
                 tbd.append(bullet)
                 continue
 
-            bullet.update_bullet_psosition()
+            bullet.update_bullet_position()
         for b in tbd:
             self.bullets.remove(b)
 
@@ -48,7 +50,9 @@ class Game:
                     "id": str(player.player_id),
                     "x": player.x,
                     "y": player.y,
-                    "destroyed": True
+                    "destroyed": True,
+                    "created": True,
+                    "rotate": 0
                 })
                 tbd.append(player)
         for p in tbd:
