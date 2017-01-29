@@ -86,7 +86,7 @@ def get_code():
         return Response(status=500)
 
     if client_id not in code_user:
-        new_sc = Spaceship(randint(0, 19), randint(0, 19), game)
+        new_sc = Spaceship(randint(0, 19), randint(0, 19), game, client_id)
         game.players.add(new_sc)
         code_user[client_id] = [code, new_sc]
     else:
