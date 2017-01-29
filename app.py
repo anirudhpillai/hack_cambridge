@@ -113,6 +113,7 @@ def play(sc): pass
     game.next_tick()
 
 game = None
+
 if __name__ == "__main__":
     game = Game(20, 20)
     app.run(debug=True)

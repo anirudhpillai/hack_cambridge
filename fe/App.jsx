@@ -102,16 +102,16 @@ Missile.defaultProps = SpaceCraft.defaultProps
 class GameCanvas extends React.Component {
 	constructor(){
 		super()
-		// this.props.feed.subscribe({
-		// 	lastEventId: "0",
-		// 	onOpen: () => console.log("Subscription opened"),
-		// 	onItem: updates => this.updateCanvas(updates),
-		// 	onError: err => console.error("Error subscribing to notifications:", err)
-		// })
-		this.state = {
-			robots: robots,
-			missiles: missiles
-		}
+		this.props.feed.subscribe({
+			lastEventId: "0",
+			onOpen: () => console.log("Subscription opened"),
+			onItem: updates => this.updateCanvas(updates),
+			onError: err => console.error("Error subscribing to notifications:", err)
+		})
+		// this.state = {
+		// 	robots: robots,
+		// 	missiles: missiles
+		// }
 	}
 
 	updateCanvas(updates){
