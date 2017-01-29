@@ -8,7 +8,7 @@ const robots = [
 		id: "yum",
 		x: 10,
 		y: 100,
-		rotate: 90,
+		rotate: 45,
 		destroyed: false,
 		created: true
 	},
@@ -24,7 +24,7 @@ const robots = [
 		id: "ajksdhusqid",
 		x: 150,
 		y: 390,
-		rotate: 90,
+		rotate: 235,
 		destroyed: false,
 		created: true
 	},
@@ -32,7 +32,7 @@ const robots = [
 		id: "skdfh",
 		x: 510,
 		y: 500,
-		rotate: 90,
+		rotate: 190,
 		destroyed: false,
 		created: true
 	},
@@ -75,42 +75,64 @@ const missiles = [
 
 function SpaceCraft(props){
 	const newStyles = { 
-		top: this.props.y + "px", 
-		left: this.props.x + "px",
-		transform: `rotate(${this.props.rotate}deg)`,
+		top: props.y + "px", 
+		left: props.x + "px",
+		transform: `rotate(${props.rotate}deg)`,
 	}
 	return <div className="spaceCraft" style={newStyles}></div>;
 }
 
+SpaceCraft.defaultProps = {
+	x: 0,
+	y: 0,
+	rotate: 0
+}
+
 function Missile(props){
 	const newStyles = { 
-		top: this.props.y + "px", 
-		left: this.props.x + "px",
-		transform: `rotate(${this.props.rotate}deg)`,
+		top: props.y + "px", 
+		left: props.x + "px",
+		transform: `rotate(${props.rotate}deg)`,
 	}
 	return <div className="missile" style={newStyles}></div>;
 }
 
+Missile.defaultProps = SpaceCraft.defaultProps
 
 class GameCanvas extends React.Component {
-	constructor(props){
-		super(props)
-		this.setState({
-			robots: this.props.robots,
-			missiles: this.props.missiles
-		})
-	}
-	updateCanvas(robots, missiles){
-		this.setState({
+	constructor(){
+		super()
+		// this.props.feed.subscribe({
+		// 	lastEventId: "0",
+		// 	onOpen: () => console.log("Subscription opened"),
+		// 	onItem: updates => this.updateCanvas(updates),
+		// 	onError: err => console.error("Error subscribing to notifications:", err)
+		// })
+		this.state = {
 			robots: robots,
 			missiles: missiles
+		}
+	}
+	updateCanvas(updates){
+		console.log("New update " + updates)
+		this.setState({
+			robots: updates.robots,
+			missiles: updates.missiles
 		})
 	}
 	render() {
-		const updatedRobots = this.props.robots.map( 
-			robot => <SpaceCraft key={robot.id} x={robot.x} y={robot.y} rotate={robot.rotate}/>)
-		const updatedMissiles = this.props.missiles.map( 
-			missile => <Missile key={missile.id} x={missile.x} y={missile.y} rotate={missile.rotate}/>)
+		let updatedRobots
+		let updatedMissiles
+		if (this.state) {
+			if (this.state.robots) {
+				updatedRobots = this.state.robots.map( 
+					robot => <SpaceCraft key={robot.id} x={robot.x} y={robot.y} rotate={robot.rotate}/>)
+			}
+			if (this.state.missiles) {
+				updatedMissiles = this.state.missiles.map( 
+					missile => <Missile key={missile.id} x={missile.x} y={missile.y} rotate={missile.rotate}/>)
+			}
+		}
 		return (
 			<div className="canvas">
 				{ updatedRobots }
@@ -121,9 +143,14 @@ class GameCanvas extends React.Component {
 }
 
 class App extends React.Component {
+	constructor(){
+		super()
+		const pusher = new PusherPlatform.App({ appId: 'c28a0d37-424e-493b-80d9-2488cc7bac8a'})
+		this.updatesFeed = pusher.feed("game");
+	}
 	render() {
 		return (
-			<GameCanvas robots={robots} missiles={missiles} />
+			<GameCanvas feed={this.updatesFeed} initialState={{robots: [],missiles: []}} />
 		);
 	}
 }
